@@ -17,33 +17,19 @@ func startRepl() {
 		input := scanner.Text()
 		words := cleanInput(input)
 		
-		for command := range commands {
-			if command == words[0] {
-				err := commands[command].callback()
-				if err != nil {
+		command, exists := getCommands()[words[0]]
+		if exists {
+			err := command.callback()
+			if err != nil {
 					fmt.Print(err)
 				}
-			} else {
+				continue
+		} else {
 				fmt.Print("Unknown command")
-			}
 		}
 	}
 }
 
-func commandHelp() error {
-	fmt.Println("Welcome to the Pokedex!")
-	fmt.Println("Usage:")
-	fmt.Println("")
-	fmt.Println("help: Displays a help message")
-	fmt.Println("exit: Exit the Pokedex")
-	return nil
-}
-
-func commandExit() error {
-	fmt.Println("Closing the Pokedex... Goodbye!")
-	os.Exit(0)
-	return nil
-}
 
 func cleanInput(text string) []string {
 	output := strings.ToLower(text)
