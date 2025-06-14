@@ -4,39 +4,43 @@ import (
 	"fmt"
 	"github.com/molkobahn/pokedexcli/internal/pokeapi"
 )
-var maps = pokeapi.GetRequest("https://pokeapi.co/api/v2/location-area/")
 
-func commandMap() error{
-	
+
+func commandMap(cfg *config) error{
+	maps, err := pokeapi.GetRequest(cfg.Next, cfg.pokecache)
+	if err != nil {
+		return err
+	}
+
 	for _, pokeMaps := range maps.Results {
 		fmt.Printf("%s\n", pokeMaps.Name)
 	}
 	
-	pokeapi.MapConfig.Previous = maps.Previous
-	pokeapi.MapConfig.Next = maps.Next
-	
-	maps = pokeapi.GetRequest(pokeapi.MapConfig.Next)
+	cfg.Previous = maps.Previous
+	cfg.Next = maps.Next
 
 	return nil
 }
 
-func commandMapb() error {
+func commandMapb(cfg *config) error {
 	
-	if pokeapi.MapConfig.Previous == "" {
+	if cfg.Previous == "" {
 		fmt.Println("You're on the first page")
 		return nil
 	}
 
-	maps = pokeapi.GetRequest(pokeapi.MapConfig.Previous)
-
+	maps, err := pokeapi.GetRequest(cfg.Previous, cfg.pokecache)
+	if err != nil {
+		return err
+	}
+	
 	for _, pokeMaps := range maps.Results {
 		fmt.Printf("%s\n", pokeMaps.Name)
 	}
 
-	pokeapi.MapConfig.Previous = maps.Previous
-	pokeapi.MapConfig.Next = maps.Next
+	cfg.Previous = maps.Previous
+	cfg.Next = maps.Next
 	
-
 	return nil
 
 }
