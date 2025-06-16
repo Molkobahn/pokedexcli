@@ -7,7 +7,7 @@ import (
 
 
 func commandMap(cfg *config) error{
-	maps, err := pokeapi.GetRequest(cfg.Next, cfg.pokecache)
+	maps, err := pokeapi.ListLocations(cfg.Next, cfg.pokecache)
 	if err != nil {
 		return err
 	}
@@ -29,7 +29,7 @@ func commandMapb(cfg *config) error {
 		return nil
 	}
 
-	maps, err := pokeapi.GetRequest(cfg.Previous, cfg.pokecache)
+	maps, err := pokeapi.ListLocations(cfg.Previous, cfg.pokecache)
 	if err != nil {
 		return err
 	}

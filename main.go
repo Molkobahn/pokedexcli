@@ -9,6 +9,7 @@ type config struct {
 	pokecache	*pokecache.Cache
 	Next		string
 	Previous	string
+	Parameter	string
 }
 
 func main() {
@@ -18,28 +19,9 @@ func main() {
 		pokecache:	Cache,
 		Next: 		"https://pokeapi.co/api/v2/location-area/",
 		Previous:	"",
+		Parameter:	"",
 	}
-	commands := map[string]cliCommand{
-		"exit": {
-			name:			"exit",
-			description:	"Exit the Pokedex",
-			callback:		commandExit,
-		},
-		"help": {
-			name:			"help",
-			description:	"Displays a help message",
-			callback:		commandHelp,
-		},
-		"map": {
-			name:			"map",
-			description:	"Displays next list of locations",
-			callback:		commandMap,
-		},
-		"mapb": {
-			name:			"mapb",
-			description:	"Diplays previous list of locations",
-			callback:		commandMapb,
-		},
-	}
+	commands := GetCommands()
+
 	startRepl(commands, cfg)
 }

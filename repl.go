@@ -17,6 +17,10 @@ func startRepl(commands map[string]cliCommand, cfg *config) {
 		input := scanner.Text()
 		words := cleanInput(input)
 		
+		if len(words) > 1 {
+			cfg.Parameter = words[1]
+		}
+		
 		command, exists := commands[words[0]]
 		if exists {
 			err := command.callback(cfg)
@@ -27,6 +31,7 @@ func startRepl(commands map[string]cliCommand, cfg *config) {
 		} else {
 				fmt.Print("Unknown command")
 		}
+
 	}
 }
 
