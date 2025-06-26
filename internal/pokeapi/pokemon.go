@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"io"
 	"github.com/molkobahn/pokedexcli/internal/pokecache"
+	"fmt"
 )
 
 
@@ -308,7 +309,7 @@ func GetPokemon(url string, cache *pokecache.Cache) (RespPokemon, error) {
 		defer res.Body.Close()
 
 		if res.StatusCode != 200 {
-			return RespLocationDetails{}, fmt.Errorf("API request failed with status %d: pokemon '%s' not found", res.StatusCode, url)
+			return RespPokemon{}, fmt.Errorf("API request failed with status %d: pokemon '%s' not found", res.StatusCode, url)
 		}
 
 		newData, err := io.ReadAll(res.Body)
