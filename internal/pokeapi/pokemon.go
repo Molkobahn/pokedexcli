@@ -307,6 +307,10 @@ func GetPokemon(url string, cache *pokecache.Cache) (RespPokemon, error) {
 		}
 		defer res.Body.Close()
 
+		if res.StatusCode != 200 {
+			return RespLocationDetails{}, fmt.Errorf("API request failed with status %d: pokemon '%s' not found", res.StatusCode, url)
+		}
+
 		newData, err := io.ReadAll(res.Body)
 		if err != nil {
 			return RespPokemon{}, err
